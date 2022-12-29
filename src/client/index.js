@@ -76,9 +76,10 @@ function displayData(dataToDisplay) {
   dateLeftDisplay.textContent = dataToDisplay.daysLeft;
   imageDisplay.src = dataToDisplay.image;
 
+  weatherList.innerHTML = "";
   dataToDisplay.weatherData.forEach((d) => {
     const li = document.createElement("li");
-    const weatherContent = `${d.date} will be ${d.weather} with avarage temperature: ${d.temp} Celsius`;
+    const weatherContent = `${d.date}: ${d.weather} with avarage temperature: ${d.temp} Celsius`;
     li.textContent = weatherContent;
     weatherList.appendChild(li);
   });

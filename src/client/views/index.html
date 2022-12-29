@@ -5,11 +5,11 @@
     <title>Test</title>
   </head>
 
-  <body>
-    <header>Travel Planner</header>
+  <body class="container">
+    <header class="header">Travel Planner</header>
 
     <main>
-      <section>
+      <section class="section form-section">
         <form id="form">
           <div class="input-group">
             <label for="city">The city you want to go:</label>
@@ -22,40 +22,39 @@
           </div>
           <div class="input-group">
             <label for="departing">Departing date</label>
-            <input type="date" name="departing" id="departing" />
+            <input required type="date" name="departing" id="departing" />
           </div>
-          <input required type="submit" name="" value="submit" />
+          <button class="btn-submit" type="submit" name="">Submit</button>
         </form>
       </section>
 
-      <section id="plan" style="display: none">
-        <strong>Your plan:</strong>
-        <div>
-          <img
-            src="#"
-            alt="Image for the place you will go"
-            class="place-image"
-          />
+      <section id="plan" class="section" style="display: none">
+        <strong class="section-header">Your plan:</strong>
+        <div class="content">
+          <div class="image">
+            <img
+              src="#"
+              alt="Image for the place you will go"
+              class="place-image"
+            />
+          </div>
 
           <div>
             Your trip to:
-            <span class="city-display"></span>&nbsp;on
+            <b><span class="city-display"></span></b>&nbsp;on
             <b class="departing-date-display"></b>
             only has:&nbsp;
             <i class="day-left"></i>
             &nbsp;days left
           </div>
           <div class="weather">
-            Here is the weather forecast:
+            <strong>Here is the weather forecast:</strong>
             <ul class="weather-list"></ul>
           </div>
         </div>
       </section>
     </main>
 
-    <footer>
-      <p>This is a footer</p>
-    </footer>
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
