@@ -75,9 +75,10 @@ app.post("/post", async (req, res) => {
       "&image_type=photo"
   );
 
+  const imageUrl = image.hits[0].webformatURL;
   res.send({
     weatherData: weatherDataProjected,
+    image: imageUrl,
     daysLeft,
-    image,
   });
 });

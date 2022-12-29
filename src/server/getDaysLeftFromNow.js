@@ -4,6 +4,7 @@ module.exports = {
     const differenceInMiliseconds =
       departingDateInMiliSeconds - new Date().getTime();
     const days = Math.ceil(differenceInMiliseconds / (1000 * 60 * 60 * 24));
+
     return days;
   },
 };

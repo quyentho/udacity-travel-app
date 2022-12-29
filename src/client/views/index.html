@@ -13,19 +13,24 @@
         <form id="form">
           <div class="input-group">
             <label for="city">The city you want to go:</label>
-            <input id="city" type="text" placeholder="input the city" />
+            <input
+              required
+              id="city"
+              type="text"
+              placeholder="input the city"
+            />
           </div>
           <div class="input-group">
             <label for="departing">Departing date</label>
             <input type="date" name="departing" id="departing" />
           </div>
-          <input type="submit" name="" value="submit" />
+          <input required type="submit" name="" value="submit" />
         </form>
       </section>
 
-      <section>
+      <section id="plan" style="display: none">
         <strong>Your plan:</strong>
-        <div id="results">
+        <div>
           <img
             src="#"
             alt="Image for the place you will go"
@@ -34,7 +39,15 @@
 
           <div>
             Your trip to:
-            <span class="city"></span>
+            <span class="city-display"></span>&nbsp;on
+            <b class="departing-date-display"></b>
+            only has:&nbsp;
+            <i class="day-left"></i>
+            &nbsp;days left
+          </div>
+          <div class="weather">
+            Here is the weather forecast:
+            <ul class="weather-list"></ul>
           </div>
         </div>
       </section>
