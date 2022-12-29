@@ -8,6 +8,7 @@ const cityInput = document.getElementById("city");
 const departingInput = document.getElementById("departing");
 const planSectionDisplay = document.getElementById("plan");
 const cityDisplay = document.getElementsByClassName("city-display")[0];
+const imageDisplay = document.getElementsByClassName("place-image")[0];
 const dateDisplay = document.getElementsByClassName(
   "departing-date-display"
 )[0];
@@ -20,6 +21,15 @@ const now = new Date();
 departingInput.valueAsDate = now;
 departingInput.min = dateToYearMonthDateFormat(now);
 departingInput.max = dateToYearMonthDateFormat(get16DaysFromNow(now));
+
+// Display cached data if present.
+document.addEventListener("DOMContentLoaded", function () {
+  const cachedData = localStorage.getItem("trip");
+
+  if (cachedData) {
+    displayData(JSON.parse(cachedData));
+  }
+});
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -37,16 +47,39 @@ form.addEventListener("submit", async (e) => {
     body: JSON.stringify(body),
   });
   const data = await response.json();
+  const dataToDisplay = {
+    city,
+    departingDate,
+    ...data,
+  };
 
+  addDataToLocalStorage(dataToDisplay);
+
+  displayData(dataToDisplay);
+});
+
+function addDataToLocalStorage(data) {
+  if (localStorage.getItem("trip")) {
+    localStorage.removeItem("trip");
+  }
+  localStorage.setItem("trip", JSON.stringify(data));
+}
+
+function displayData(dataToDisplay) {
   planSectionDisplay.style.display = "block";
-  cityDisplay.textContent = city;
+  cityDisplay.textContent = dataToDisplay.city;
+  let departingDate = dataToDisplay.departingDate;
+  if (typeof departingDate === "string") {
+    departingDate = new Date(dataToDisplay.departingDate);
+  }
   dateDisplay.textContent = departingDate.toLocaleDateString();
-  dateLeftDisplay.textContent = data.daysLeft;
+  dateLeftDisplay.textContent = dataToDisplay.daysLeft;
+  imageDisplay.src = dataToDisplay.image;
 
-  data.weatherData.forEach((d) => {
+  dataToDisplay.weatherData.forEach((d) => {
     const li = document.createElement("li");
-    const weatherContent = `${d.date} will be ${d.weather} with avarage temperature: ${d.temp}`;
+    const weatherContent = `${d.date} will be ${d.weather} with avarage temperature: ${d.temp} Celsius`;
     li.textContent = weatherContent;
     weatherList.appendChild(li);
   });
-});
+}
