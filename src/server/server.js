@@ -1,8 +1,10 @@
 // Setup empty JS object to act as endpoint for all routes
-const fetch = require("node-fetch");
 require("dotenv").config();
 
 const geoNamesAPI = "http://api.geonames.org/searchJSON?username={user}&q=";
+const weatherbitForecastAPI = " http://api.weatherbit.io/v2.0/forecast/daily?";
+const weatherbitCurrentAPI = "http://api.weatherbit.io/v2.0/current?";
+const pixabayURL = "https://pixabay.com/api/?";
 
 // Require Express to run server and routes
 const express = require("express");
@@ -18,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Cors for cross origin allowance
 const cors = require("cors");
+const { getDaysLeftFromNow } = require("./getDaysLeftFromNow");
+const { fetchAsync } = require("./fetchAsync");
 app.use(cors());
 
 // Initialize the main project folder
@@ -31,9 +35,41 @@ app.get("/get", (req, res) => res.send("ok"));
 
 app.post("/post", async (req, res) => {
   const data = req.body;
-  const url = geoNamesAPI.replace("{user}", process.env.GeoUser);
-  console.log(url);
-  const geoResponse = await fetch(url + data.city);
-  const responseData = await geoResponse.json();
-  res.send(responseData);
+
+  // get latitute, longtitute from geoNames API
+  const geoNamesUrl = geoNamesAPI.replace("{user}", process.env.GeoUser);
+  const geoData = await fetchAsync(geoNamesUrl + data.city);
+  const latitute = geoData.geonames[0].lat;
+  const longtitute = geoData.geonames[0].lng;
+
+  // get weather forecast from weather bit API.
+  const daysLeft = getDaysLeftFromNow(data.arrivalDate);
+  const weatherBitUrl =
+    daysLeft <= 7 ? weatherbitCurrentAPI : weatherbitForecastAPI;
+
+  const weatherBitData = await fetchAsync(
+    weatherBitUrl +
+      "lat=" +
+      latitute +
+      "&lon=" +
+      longtitute +
+      "&key=" +
+      process.env.WeatherBitAPIKey
+  );
+
+  // get images from Pixa bay API
+  const image = await fetchAsync(
+    pixabayURL +
+      "key=" +
+      process.env.PixaBayAPIKey +
+      "&q=" +
+      data.city +
+      "&image_type=photo"
+  );
+
+  res.send({
+    weatherData: weatherBitData,
+    daysLeft,
+    image,
+  });
 });

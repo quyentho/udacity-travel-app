@@ -1,6 +1,12 @@
 # Introduction
 
-This project using **nodejs** and **meaningcloud** to do Natural Language Processing
+This project is capstone project for Frontend Web Developer udacity course.
+
+In this project I used:
+
+- geoNames API: to get location info from user input (city name)
+- weatherbit API: to get weather forecast for the arrival location based on latitute and longtitute
+- PixaBay API to get image at the arrival location
 
 # Getting started
 
