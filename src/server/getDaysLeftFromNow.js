@@ -1,8 +1,8 @@
 module.exports = {
-  getDaysLeftFromNow(arrivalDate) {
-    const arrivalDateInMiliSeconds = new Date(arrivalDate).getTime();
+  getDaysLeftFromNow(departingDate) {
+    const departingDateInMiliSeconds = new Date(departingDate).getTime();
     const differenceInMiliseconds =
-      arrivalDateInMiliSeconds - new Date().getTime();
+      departingDateInMiliSeconds - new Date().getTime();
     const days = Math.ceil(differenceInMiliseconds / (1000 * 60 * 60 * 24));
     return days;
   },

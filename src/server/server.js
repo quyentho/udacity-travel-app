@@ -43,7 +43,7 @@ app.post("/post", async (req, res) => {
   const longtitute = geoData.geonames[0].lng;
 
   // get weather forecast from weather bit API.
-  const daysLeft = getDaysLeftFromNow(data.arrivalDate);
+  const daysLeft = getDaysLeftFromNow(data.departingDate);
   const weatherBitUrl =
     daysLeft <= 7 ? weatherbitCurrentAPI : weatherbitForecastAPI;
 
@@ -57,6 +57,14 @@ app.post("/post", async (req, res) => {
       process.env.WeatherBitAPIKey
   );
 
+  const weatherDataProjected = weatherBitData.data.map((d) => ({
+    date: d.datetime,
+    weather: d.weather.description,
+    temp: d.temp,
+    max_temp: d.max_temp,
+    min_temp: d.min_temp,
+  }));
+
   // get images from Pixa bay API
   const image = await fetchAsync(
     pixabayURL +
@@ -68,7 +76,7 @@ app.post("/post", async (req, res) => {
   );
 
   res.send({
-    weatherData: weatherBitData,
+    weatherData: weatherDataProjected,
     daysLeft,
     image,
   });
