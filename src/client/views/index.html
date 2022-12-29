@@ -6,23 +6,37 @@
   </head>
 
   <body>
-    <header>
-      <div class="">Logo</div>
-      <div class="">navigation</div>
-    </header>
+    <header>Travel Planner</header>
 
     <main>
       <section>
         <form id="form">
-          <label for="city">The city you want to go:</label>
-          <input id="city" type="text" placeholder="input the city" />
+          <div class="input-group">
+            <label for="city">The city you want to go:</label>
+            <input id="city" type="text" placeholder="input the city" />
+          </div>
+          <div class="input-group">
+            <label for="arrival">Arrival date</label>
+            <input type="date" name="arrival" id="arrival" />
+          </div>
           <input type="submit" name="" value="submit" />
         </form>
       </section>
 
       <section>
-        <strong>Form Results:</strong>
-        <div id="results"></div>
+        <strong>Your plan:</strong>
+        <div id="results">
+          <img
+            src="#"
+            alt="Image for the place you will go"
+            class="place-image"
+          />
+
+          <div>
+            Your trip to:
+            <span class="city"></span>
+          </div>
+        </div>
       </section>
     </main>
 
