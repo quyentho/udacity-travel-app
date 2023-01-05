@@ -31,6 +31,12 @@ app.use(cors());
 const port = 3000;
 app.listen(port, () => console.log(`server listenning on ${port}`));
 
+app.use(express.static("dist"));
+
+app.get("/", function (req, res) {
+  res.sendFile(`dist/index.html`);
+});
+
 app.get("/get", (req, res) => res.send("ok"));
 
 app.post("/post", async (req, res) => {
